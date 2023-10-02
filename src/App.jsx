@@ -1,5 +1,5 @@
 
-import  './App.css';
+import './App.css';
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { fetchSchedule,getCourseNumber,terms,hasConflict,toggle,addScheduleTimes } from './utilities/times.js';
 import { useData } from './utilities/firebase';

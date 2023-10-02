@@ -1,11 +1,8 @@
 import React from 'react'
-import { hasConflict,getCourseTerm,getCourseNumber,toggle,} from '../utilities/times';
-import { useNavigate } from 'react-router-dom';
-
+import { hasConflict,getCourseTerm,getCourseNumber,toggle } from '../utilities/times';
 
 
 export const Course = ({ course, selected, setSelected }) => {
-  const navigate = useNavigate();
   const isSelected = selected.includes(course);
   const isDisabled = !isSelected && hasConflict(course, selected);
   const style = {
@@ -13,10 +10,8 @@ export const Course = ({ course, selected, setSelected }) => {
   };
   return (
     <div className="card m-1 p-2" 
-    style={style}
-    onClick={isDisabled ? null : () =>  setSelected(toggle(course, selected))}
-    onDoubleClick={() => navigate('/edit', { state: course })}>
-
+      style={style}
+      onClick={isDisabled ? null : () =>  setSelected(toggle(course, selected))}>
       <div className="card-body">
         <div className="card-title">{ getCourseTerm(course) } CS { getCourseNumber(course) }</div>
         <div className="card-text">{ course.title }</div>
@@ -25,7 +20,3 @@ export const Course = ({ course, selected, setSelected }) => {
     </div>
   );
 };
-
-
-
- 
