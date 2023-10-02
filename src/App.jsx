@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { fetchSchedule,getCourseNumber,terms,hasConflict,toggle } from './utilities/times.js';
@@ -8,7 +7,7 @@ import { CourseList } from './components/Course/CourseList';
 
 const App = () => {
   
-  
+
 
 
 
