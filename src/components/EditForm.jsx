@@ -1,19 +1,40 @@
-import { useLocation } from "react-router-dom";
-import { useState } from 'react';
 
 
-export const EditForm = () => {
+
+import { useLocation, useNavigate } from "react-router-dom";
+import { useForm } from '../utilities/useForm';
+import { timeParts } from "../utilities/times";
+
+const isValidMeets = (meets) => {
+  const parts = timeParts(meets);
+  return (meets === '' || (parts.days && !isNaN(parts.hours?.start) && !isNaN(parts.hours?.end)));
+};
+
+const validateCourseData = (key, val) => {
+  switch (key) {
+    case 'title': return /(^$|\w\w)/.test(val) ? '' : 'must be least two characters';
+    case 'meets': return isValidMeets(val) ? '' : 'must be days hh:mm-hh:mm';
+    default: return '';
+  }
+};
+
+const submit = (values) => alert(JSON.stringify(values));
+ 
+const EditForm = () => {
   const { state: course } = useLocation();
+  const [ errors, handleSubmit ] = useForm(validateCourseData, submit);
   return (
-    <form>
-      <input type="hidden" name="id" />
-      <div className="mb-3">
+    <form onSubmit={handleSubmit} noValidate className={errors ? 'was-validated' : null}>
+        <input type="hidden" name="id" value={course.id} />
+        <div className="mb-3">
         <label htmlFor="title" className="form-label">Course title</label>
-        <input className="form-control" id="title"  />
+        <input className="form-control" id="title" name="title" defaultValue={course.title} />
+        <div className="invalid-feedback">{errors?.title}</div>
       </div>
       <div className="mb-3">
         <label htmlFor="meets" className="form-label">Meeting time</label>
-        <input className="form-control" id="meets" />
+        <input className="form-control" id="meets" name="meets" defaultValue={course.meets} />
+        <div className="invalid-feedback">{errors?.meets}</div>
       </div>
       <button type="submit" className="btn btn-primary">Submit</button>
     </form>
@@ -23,23 +44,3 @@ export const EditForm = () => {
 export default EditForm;
 
 
-export const useForm = (validate, submit) => {
-  const [errors, setErrors] = useState(null);
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    const form = evt.target;
-    const entries = Array.from(new FormData(form).entries());
-    const errors = entries.map(([key, val]) => [key, validate(key, val)]);
-    errors.forEach(([key, val]) => { form[key].setCustomValidity(val) });
-
-    if (errors.some(([key, val]) => val !== '')) {
-      setErrors(Object.fromEntries(errors));
-    } else {
-      setErrors(null);
-      submit(Object.fromEntries(entries));
-    }
-  }
-
-  return [errors, handleSubmit];
-}

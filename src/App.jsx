@@ -6,7 +6,7 @@ import { useData } from './utilities/firebase';
 import { CourseList } from './components/Course/CourseList';
 import { BrowserRouter, Routes, Route,} from "react-router-dom";
 import EditForm from './components/EditForm.jsx';
-import { useNavigate } from './components';
+import { useNavigate } from 'react-router-dom';
 
 
 const App = () => {
