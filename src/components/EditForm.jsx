@@ -1,9 +1,8 @@
 
-
-
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from '../utilities/useForm';
 import { timeParts } from "../utilities/times";
+
 
 const isValidMeets = (meets) => {
   const parts = timeParts(meets);
@@ -18,8 +17,12 @@ const validateCourseData = (key, val) => {
   }
 };
 
-const submit = (values) => alert(JSON.stringify(values));
+
+
+
  
+const submit = (values) => alert(JSON.stringify(values));
+
 const EditForm = () => {
   const { state: course } = useLocation();
   const [ errors, handleSubmit ] = useForm(validateCourseData, submit);

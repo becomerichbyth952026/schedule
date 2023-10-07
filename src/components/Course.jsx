@@ -2,6 +2,8 @@ import React from 'react'
 import { hasConflict,getCourseTerm,getCourseNumber,toggle } from '../utilities/times';
 import { useNavigate } from 'react-router-dom';
 
+
+
 export const Course = ({ course, selected, setSelected }) => {
   const isSelected = selected.includes(course);
   const isDisabled = !isSelected && hasConflict(course, selected);

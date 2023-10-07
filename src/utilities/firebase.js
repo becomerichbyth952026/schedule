@@ -1,7 +1,11 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, onValue, ref, set } from 'firebase/database';
 import { useState,useEffect } from 'react';
-const firebaseConfig = {
+
+
+
+
+ const firebaseConfig = {
   apiKey: "AIzaSyA_MGfmKC8vm8Cf23RhgvTpQ19OaXPrVQQ",
   authDomain: "schedule-d6809.firebaseapp.com",
   databaseURL: "https://schedule-d6809-default-rtdb.firebaseio.com",
@@ -38,3 +42,7 @@ export const useData = (path, transform) => {
 
   return [data, loading, error];
 };
+
+export const setData = (path, value) => (
+  set(ref(database, path), value)
+);
