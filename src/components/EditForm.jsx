@@ -2,14 +2,15 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from '../utilities/useForm';
 import { timeParts } from "../utilities/times";
+import { setData } from "../utilities/firebase";
 
 
-const isValidMeets = (meets) => {
+export const isValidMeets = (meets) => {
   const parts = timeParts(meets);
   return (meets === '' || (parts.days && !isNaN(parts.hours?.start) && !isNaN(parts.hours?.end)));
 };
 
-const validateCourseData = (key, val) => {
+export const validateCourseData = (key, val) => {
   switch (key) {
     case 'title': return /(^$|\w\w)/.test(val) ? '' : 'must be least two characters';
     case 'meets': return isValidMeets(val) ? '' : 'must be days hh:mm-hh:mm';
@@ -20,10 +21,17 @@ const validateCourseData = (key, val) => {
 
 
 
- 
-const submit = (values) => alert(JSON.stringify(values));
+const submit = async (values) => {
+  if (window.confirm(`Change ${values.id} to ${values.title}: ${values.meets}`)) {
+    try {
+      await setData(`schedule/courses/${values.id}/`, values);
+    } catch (error) {
+      alert(error);
+    }
+  }
+};
 
-const EditForm = () => {
+export const EditForm = () => {
   const { state: course } = useLocation();
   const [ errors, handleSubmit ] = useForm(validateCourseData, submit);
   return (
